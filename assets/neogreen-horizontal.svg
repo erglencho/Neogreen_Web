@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="180" viewBox="0 0 900 180" role="img" aria-label="Neogreen Global">
+  <defs>
+    <style>
+      .word {
+        fill: #063d5a;
+        font-family: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
+        font-weight: 800;
+        letter-spacing: 8px;
+      }
+      .sub {
+        fill: #063d5a;
+        font-family: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
+        font-weight: 700;
+        letter-spacing: 12px;
+      }
+      .rule {
+        stroke: #063d5a;
+        stroke-width: 6;
+      }
+    </style>
+  </defs>
+  <text class="word" x="0" y="86" font-size="92">NEOGREEN</text>
+  <path d="M344 17c8-11 22-18 40-22-8 13-9 26-4 39-9-11-20-17-36-17z" fill="#9ccd3d"/>
+  <path d="M345 43c10-24 31-36 52-42-17 14-31 30-39 48" fill="none" stroke="#9ccd3d" stroke-width="4" stroke-linecap="round"/>
+  <line class="rule" x1="0" y1="132" x2="218" y2="132"/>
+  <line class="rule" x1="682" y1="132" x2="900" y2="132"/>
+  <text class="sub" x="250" y="165" font-size="56">GLOBAL</text>
+</svg>

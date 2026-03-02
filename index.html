@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neogreen Global — Construimos marcas con origen</title>
+  <meta name="description" content="Neogreen Global S.L. — Grupo empresarial barcelonés especializado en el desarrollo y gestión de marcas de alimentación de origen y calidad." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300&family=Cormorant+Garamond:ital,wght@1,300;1,400;1,600&family=IBM+Plex+Mono:wght@300;400&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --moss: #063d5a;
+      --moss-light: #0b587e;
+      --clay: #9ccd3d;
+      --clay-light: #b8e854;
+      --cream: #f2f6f1;
+      --cream-dark: #e8eee7;
+      --charcoal: #0b2e44;
+      --charcoal-mid: #083047;
+      --text-muted: #4a6678;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-serif: 'Cormorant Garamond', serif;
+      --font-outfit: 'Outfit', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+      --radius-lg: 2rem;
+      --radius-xl: 3rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-outfit);
+      background: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--moss); border-radius: 99px; }
+
+    #navbar {
+      position: fixed;
+      top: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: 0.75rem 1.5rem 0.75rem 1.75rem;
+      border-radius: 99px;
+      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      background: rgba(242, 246, 241, 0.55);
+      border: 1px solid rgba(6, 61, 90, 0.08);
+      box-shadow: 0 8px 32px rgba(26,26,26,0.06);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      width: min(calc(100% - 3rem), 900px);
+    }
+    #navbar.scrolled {
+      background: rgba(242, 246, 241, 0.75);
+      border: 1px solid rgba(6, 61, 90, 0.12);
+    }
+    .nav-logo {
+      line-height: 0;
+      text-decoration: none;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+    }
+    .nav-logo-img {
+      height: clamp(24px, 2.2vw, 36px);
+      max-width: min(42vw, 260px);
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-outfit);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .nav-links a:hover { color: var(--moss); transform: translateY(-1px); display: inline-block; }
+    .nav-cta {
+      font-family: var(--font-outfit);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--moss);
+      border: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 99px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--moss-light);
+      transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border-radius: 99px;
+    }
+    .nav-cta:hover::before { transform: translateX(0); }
+    .nav-cta:hover { transform: scale(1.03); }
+    .nav-cta span { position: relative; z-index: 1; }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      #navbar { width: calc(100% - 2rem); }
+      .nav-logo-img {
+        height: 24px;
+        max-width: 56vw;
+      }
+    }
+
+    #hero {
+      height: 100dvh;
+      min-height: 600px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 5vw 8vh;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=1600&q=80');
+      background-size: cover;
+      background-position: center 30%;
+      transform: scale(1.05);
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(11,46,68,0.92) 0%,
+        rgba(11,46,68,0.6) 40%,
+        rgba(6,61,90,0.3) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 820px;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--clay);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .hero-line1 {
+      font-family: var(--font-sans);
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      color: var(--cream);
+      letter-spacing: -0.03em;
+      display: block;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .hero-line2 {
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 0.95;
+      color: var(--cream);
+      display: block;
+      margin-top: 0.1em;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .hero-line2 em {
+      color: var(--clay);
+      font-style: italic;
+    }
+    .hero-sub {
+      font-family: var(--font-outfit);
+      font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+      font-weight: 300;
+      color: rgba(242,246,241,0.72);
+      line-height: 1.7;
+      max-width: 480px;
+      margin-top: 2rem;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .hero-cta-wrap {
+      margin-top: 2.5rem;
+      opacity: 0;
+      transform: translateY(16px);
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn-primary {
+      font-family: var(--font-outfit);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--moss);
+      border: none;
+      padding: 1rem 2.2rem;
+      border-radius: 99px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--moss-light);
+      transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border-radius: 99px;
+    }
+    .btn-primary:hover::before { transform: translateX(0); }
+    .btn-primary:hover { transform: scale(1.03); }
+    .btn-primary span { position: relative; z-index: 1; }
+
+    .btn-ghost {
+      font-family: var(--font-outfit);
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: rgba(242,246,241,0.75);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.3s;
+    }
+    .btn-ghost:hover { color: var(--cream); transform: translateY(-1px); }
+    .btn-ghost svg { transition: transform 0.3s; }
+    .btn-ghost:hover svg { transform: translateX(3px); }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 5vw;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, transparent, rgba(242,246,241,0.4));
+    }
+    .scroll-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(242,246,241,0.4);
+      writing-mode: vertical-rl;
+    }
+
+    section { position: relative; }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--moss);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    #about {
+      padding: 10rem 5vw;
+      background: var(--cream);
+    }
+    .about-logo-wrap {
+      max-width: 1100px;
+      margin: 0 auto 5rem;
+      display: flex;
+      justify-content: center;
+    }
+    .about-logo-wrap img {
+      width: clamp(200px, 30vw, 340px);
+      height: auto;
+      opacity: 0.92;
+    }
+    .about-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    @media (max-width: 768px) {
+      .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+    }
+    .about-title {
+      font-family: var(--font-sans);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--charcoal);
+    }
+    .about-title em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--moss);
+    }
+    .about-body {
+      font-family: var(--font-outfit);
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-top: 1.5rem;
+    }
+    .about-body p + p { margin-top: 1rem; }
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .stat-item {
+      border-left: 2px solid var(--moss);
+      padding-left: 1.5rem;
+    }
+    .stat-num {
+      font-family: var(--font-serif);
+      font-size: 3rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--moss);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: var(--font-outfit);
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+      letter-spacing: 0.02em;
+    }
+    .stat-sub {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--moss);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    #brands {
+      padding: 8rem 5vw;
+      background: var(--charcoal);
+    }
+    .brands-header {
+      max-width: 1100px;
+      margin: 0 auto 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .brands-title {
+      font-family: var(--font-sans);
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--cream);
+    }
+    .brands-title em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--clay);
+    }
+    .brands-intro {
+      font-family: var(--font-outfit);
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: rgba(242,246,241,0.55);
+      max-width: 360px;
+      line-height: 1.7;
+    }
+
+    .brands-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      .brands-grid { grid-template-columns: 1fr; }
+    }
+
+    .brand-card {
+      background: rgba(242,246,241,0.04);
+      border: 1px solid rgba(242,246,241,0.08);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: default;
+    }
+    .brand-card:hover {
+      background: rgba(242,246,241,0.07);
+      border-color: rgba(156,205,61,0.3);
+      transform: translateY(-4px);
+    }
+    .brand-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--clay), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .brand-card:hover::before { opacity: 1; }
+
+    .brand-card-img {
+      width: 100%;
+      height: 180px;
+      border-radius: calc(var(--radius-lg) - 0.5rem);
+      object-fit: cover;
+      margin-bottom: 1.75rem;
+      filter: brightness(0.85) saturate(0.9);
+      transition: filter 0.4s;
+    }
+    .brand-card:hover .brand-card-img { filter: brightness(0.95) saturate(1); }
+
+    .brand-tag {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--clay);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .brand-name {
+      font-family: var(--font-sans);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--cream);
+      margin-bottom: 0.75rem;
+    }
+    .brand-desc {
+      font-family: var(--font-outfit);
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: rgba(242,246,241,0.65);
+      line-height: 1.7;
+    }
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--clay);
+      text-decoration: none;
+      margin-top: 1.5rem;
+      transition: all 0.3s;
+    }
+    .brand-link:hover { gap: 0.6rem; color: var(--clay-light); }
+
+    .brand-card.future {
+      border-style: dashed;
+      border-color: rgba(242,246,241,0.12);
+    }
+    .brand-card.future .brand-card-img {
+      filter: brightness(0.4) saturate(0.3);
+    }
+    .future-badge {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--clay);
+      background: rgba(156,205,61,0.14);
+      border: 1px solid rgba(156,205,61,0.3);
+      padding: 0.3rem 0.8rem;
+      border-radius: 99px;
+    }
+
+    #philosophy {
+      padding: 12rem 5vw;
+      background: var(--moss);
+      position: relative;
+      overflow: hidden;
+    }
+    .philosophy-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=1200&q=70');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.08;
+      transform: scale(1.1);
+    }
+    .philosophy-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .philosophy-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(242,246,241,0.5);
+      margin-bottom: 3rem;
+      display: block;
+    }
+    .philosophy-normal {
+      font-family: var(--font-outfit);
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      font-weight: 300;
+      color: rgba(242,246,241,0.65);
+      letter-spacing: 0.02em;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .philosophy-drama {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.1;
+      display: block;
+      margin-bottom: 3rem;
+    }
+    .philosophy-drama em { color: var(--clay); font-style: italic; }
+    .philosophy-divider {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, rgba(242,246,241,0.3), transparent);
+      margin: 3rem auto;
+    }
+    .philosophy-close {
+      font-family: var(--font-outfit);
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(242,246,241,0.72);
+      line-height: 1.8;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    #services {
+      padding: 9rem 5vw;
+      background: var(--cream-dark);
+    }
+    .services-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .services-header {
+      margin-bottom: 5rem;
+      max-width: 640px;
+    }
+    .services-title {
+      font-family: var(--font-sans);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--charcoal);
+      margin-top: 0.5rem;
+      line-height: 1.1;
+    }
+    .services-title em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--moss);
+    }
+    .services-subtitle {
+      font-family: var(--font-outfit);
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-top: 1rem;
+      max-width: 520px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 900px) {
+      .services-grid { grid-template-columns: 1fr; }
+    }
+    .service-card {
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      border: 1px solid rgba(26,26,26,0.07);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(26,26,26,0.09);
+    }
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(6,61,90,0.07);
+      border-radius: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.75rem;
+    }
+    .service-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--moss);
+    }
+    .service-num {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      color: var(--moss);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .service-title {
+      font-family: var(--font-sans);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--charcoal);
+      margin-bottom: 0.75rem;
+    }
+    .service-desc {
+      font-family: var(--font-outfit);
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    #contact {
+      padding: 10rem 5vw;
+      background: var(--charcoal);
+    }
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    }
+    .contact-title {
+      font-family: var(--font-sans);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--cream);
+      line-height: 1.05;
+    }
+    .contact-title em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--clay);
+      display: block;
+    }
+    .contact-sub {
+      font-family: var(--font-outfit);
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: rgba(242,246,241,0.6);
+      line-height: 1.7;
+      margin-top: 1.5rem;
+      max-width: 380px;
+    }
+    .contact-info {
+      margin-top: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .contact-info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .info-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(242,246,241,0.4);
+    }
+    .info-value {
+      font-family: var(--font-outfit);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--cream);
+    }
+    .info-value a {
+      color: var(--clay);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .info-value a:hover { color: var(--clay-light); }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .form-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(242,246,241,0.45);
+    }
+    .form-input, .form-textarea {
+      font-family: var(--font-outfit);
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--cream);
+      background: rgba(242,246,241,0.05);
+      border: 1px solid rgba(242,246,241,0.1);
+      border-radius: 0.75rem;
+      padding: 0.9rem 1.2rem;
+      outline: none;
+      transition: border-color 0.3s, background 0.3s;
+      width: 100%;
+    }
+    .form-input::placeholder, .form-textarea::placeholder {
+      color: rgba(242,246,241,0.3);
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: rgba(156,205,61,0.6);
+      background: rgba(242,246,241,0.08);
+    }
+    .form-textarea { resize: vertical; min-height: 130px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-submit {
+      font-family: var(--font-outfit);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--moss);
+      border: none;
+      padding: 1.1rem 2.5rem;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+      overflow: hidden;
+      align-self: flex-start;
+      margin-top: 0.5rem;
+    }
+    .form-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--moss-light);
+      transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border-radius: 99px;
+    }
+    .form-submit:hover::before { transform: translateX(0); }
+    .form-submit:hover { transform: scale(1.03); }
+    .form-submit span { position: relative; z-index: 1; }
+
+    #footer {
+      background: var(--charcoal-mid);
+      border-top: 1px solid rgba(242,246,241,0.08);
+      padding: 3rem 5vw;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .footer-brand {
+      font-family: var(--font-sans);
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+      color: var(--cream);
+    }
+    .footer-brand span {
+      font-weight: 300;
+      color: rgba(242,246,241,0.5);
+      margin-left: 0.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 0;
+    }
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-family: var(--font-outfit);
+      font-size: 0.78rem;
+      color: rgba(242,246,241,0.45);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--cream); }
+    .footer-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--clay);
+      box-shadow: 0 0 0 0 rgba(156,205,61,0.4);
+      animation: pulse-status 2s infinite;
+    }
+    @keyframes pulse-status {
+      0% { box-shadow: 0 0 0 0 rgba(156,205,61,0.4); }
+      70% { box-shadow: 0 0 0 6px rgba(156,205,61,0); }
+      100% { box-shadow: 0 0 0 0 rgba(156,205,61,0); }
+    }
+    .status-text {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(242,246,241,0.45);
+    }
+
+    .reveal { opacity: 0; transform: translateY(30px); }
+    .reveal.visible { opacity: 1; transform: translateY(0); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+
+    .reveal-left { opacity: 0; transform: translateX(-30px); }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+
+    .delay-1 { transition-delay: 0.1s !important; }
+    .delay-2 { transition-delay: 0.2s !important; }
+    .delay-3 { transition-delay: 0.3s !important; }
+    .delay-4 { transition-delay: 0.45s !important; }
+    .delay-5 { transition-delay: 0.6s !important; }
+
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo" aria-label="Inicio Neogreen Global">
+      <img src="assets/NeoGreen_Horizontal_Color@4x.png" alt="Logo horizontal de Neogreen Global" class="nav-logo-img" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">Empresa</a></li>
+      <li><a href="#brands">Marcas</a></li>
+      <li><a href="#services">Servicios</a></li>
+      <li><a href="#contact">Contacto</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta"><span>Contáctanos</span></a>
+  </nav>
+
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Barcelona · España · Est. 2017</div>
+      <span class="hero-line1">El origen es nuestra</span>
+      <span class="hero-line2">ventaja <em>competitiva.</em></span>
+      <p class="hero-sub">
+        Neogreen Global es el grupo empresarial detrás de marcas de alimentación de calidad trazable. Desarrollamos, respaldamos y operamos marcas con propósito desde Barcelona.
+      </p>
+      <div class="hero-cta-wrap">
+        <a href="#brands" class="btn-primary"><span>Nuestras marcas</span></a>
+        <a href="#services" class="btn-ghost">
+          Servicios para empresas
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      <span class="scroll-label">Desliza</span>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="about-logo-wrap">
+      <img src="assets/NeoGreen_completo_color@4x.png" alt="Neogreen Global" />
+    </div>
+    <div class="about-inner">
+      <div>
+        <span class="section-eyebrow reveal">Quiénes somos</span>
+        <h2 class="about-title reveal delay-1">
+          Una empresa que <em>respalda marcas</em> con trayectoria
+        </h2>
+        <div class="about-body reveal delay-2">
+          <p>Neogreen Global S.L. es el holding barcelonés que gestiona y da soporte a marcas de alimentación de origen. No somos una marca de consumo — somos la estructura empresarial que garantiza que cada marca que opera bajo nuestro paraguas tiene detrás el músculo, el criterio y la experiencia necesarios para operar con seriedad.</p>
+          <p>Nuestra actividad nace de más de siete años de experiencia en el mercado del cacao y el chocolate, exportando e importando producto de origen con exigencia de calidad y trazabilidad. Esa experiencia acumulada es hoy la base sobre la que construimos marcas nuevas y sobre la que ofrecemos servicios a empresas que quieren su propia marca de producto.</p>
+        </div>
+      </div>
+      <div class="about-stats">
+        <div class="stat-item reveal delay-1">
+          <div class="stat-num">7+</div>
+          <div class="stat-label">Años operando en el sector del cacao y alimentación de origen</div>
+          <div class="stat-sub">Trayectoria probada</div>
+        </div>
+        <div class="stat-item reveal delay-2">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Marcas activas bajo el paraguas de Neogreen Global</div>
+          <div class="stat-sub">Y creciendo</div>
+        </div>
+        <div class="stat-item reveal delay-3">
+          <div class="stat-num">ES</div>
+          <div class="stat-label">Empresa registrada en España, operativa a nivel internacional</div>
+          <div class="stat-sub">Barcelona · España</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="brands">
+    <div class="brands-header">
+      <div>
+        <span class="section-eyebrow" style="color: rgba(156,205,61,0.8)">Portafolio</span>
+        <h2 class="brands-title">Nuestras <em>marcas.</em></h2>
+      </div>
+      <p class="brands-intro">Cada marca opera con identidad propia. Neogreen Global es el respaldo institucional que hay detrás.</p>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-card reveal delay-1">
+        <img class="brand-card-img" src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=800&q=80" alt="Cacao Venezuela Delta" loading="lazy" />
+        <span class="brand-tag">Marca establecida · 7+ años</span>
+        <div class="brand-name">Cacao Venezuela Delta</div>
+        <p class="brand-desc">Especialistas en cacao venezolano de origen. Más de siete años importando y comercializando cacao fino de aroma con trazabilidad completa, trabajando con chocolateros, pasteleros y profesionales del sector en España y Europa.</p>
+        <a href="https://cacaovenezueladelta.com" target="_blank" rel="noopener noreferrer" class="brand-link">
+          cacaovenezueladelta.com
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
+      </div>
+
+      <div class="brand-card reveal delay-2">
+        <img class="brand-card-img" src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=800&q=80" alt="Mundi Cacao" loading="lazy" />
+        <span class="brand-tag">Nueva marca <span class="brand-badge-new">2025</span></span>
+        <div class="brand-name">Mundi Cacao</div>
+        <p class="brand-desc">Suministro global de cacao y chocolate para profesionales. Granos de origen seleccionado, polvos, manteca, nibs, pasta y coberturas para chocolateros, pasteleros, heladeros artesanales y el canal HORECA. Desde 100 g hasta contenedor completo.</p>
+        <a href="https://mundicacao.com" target="_blank" rel="noopener noreferrer" class="brand-link">
+          mundicacao.com
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="philosophy">
+    <div class="philosophy-bg"></div>
+    <div class="philosophy-inner">
+      <span class="philosophy-label">Nuestra filosofía</span>
+      <span class="philosophy-normal reveal">El origen no es un argumento de marketing.</span>
+      <span class="philosophy-drama reveal delay-1">Es la razón<br/>de <em>todo.</em></span>
+      <div class="philosophy-divider reveal delay-2"></div>
+      <p class="philosophy-close reveal delay-3">
+        Cada marca que gestionamos existe porque hay un producto real detrás, con una historia de dónde viene, quién lo produce y por qué importa. Eso es lo que da valor. Lo demás es envoltorio.
+      </p>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="services-inner">
+      <div class="services-header">
+        <span class="section-eyebrow reveal">Para empresas</span>
+        <h2 class="services-title reveal delay-1">Tu producto,<br/><em>tu marca.</em></h2>
+        <p class="services-subtitle reveal delay-2">Si tienes un proyecto de alimentación y necesitas producto con tu marca, embalaje a medida o desarrollar una identidad de marca desde cero, Neogreen puede ser tu socio operativo. Trabajamos con empresas de cualquier tamaño, desde pequeñas tiendas hasta distribuidores internacionales.</p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+          </div>
+          <span class="service-num">01 — Marca blanca</span>
+          <div class="service-title">Private Label</div>
+          <p class="service-desc">Desarrollamos soluciones de marca blanca completas: desde la selección del producto y origen hasta el packaging final con tu marca. Calidad consistente y presencia diferenciada en el mercado.</p>
+        </div>
+
+        <div class="service-card reveal delay-1">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <span class="service-num">02 — Packaging</span>
+          <div class="service-title">Custom Packaging</div>
+          <p class="service-desc">Reempacado y packaging personalizado adaptado a tus necesidades de producción, logística y distribución. Formatos retail desde 100 g hasta formatos industriales de 60 kg. Multi-unidad, palet completo o contenedor.</p>
+        </div>
+
+        <div class="service-card reveal delay-2">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <span class="service-num">03 — Desarrollo</span>
+          <div class="service-title">Desarrollo de Marca</div>
+          <p class="service-desc">¿Tienes un producto pero no una marca? Te ayudamos a construirla desde cero o a reposicionar la que ya tienes. Selección de origen, identidad, naming, packaging y puesta en mercado.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-inner">
+      <div>
+        <span class="section-eyebrow" style="color: rgba(156,205,61,0.8)">Contacto</span>
+        <h2 class="contact-title reveal">
+          Hablemos de
+          <em>tu proyecto.</em>
+        </h2>
+        <p class="contact-sub reveal delay-1">
+          Para consultas comerciales, oportunidades de colaboración o cualquier cuestión relacionada con Neogreen Global o nuestras marcas.
+        </p>
+        <div class="contact-info reveal delay-2">
+          <div class="contact-info-item">
+            <span class="info-label">Email</span>
+            <span class="info-value"><a href="mailto:info@neogreenglobal.com">info@neogreenglobal.com</a></span>
+          </div>
+          <div class="contact-info-item">
+            <span class="info-label">Sede</span>
+            <span class="info-value">Barcelona, España</span>
+          </div>
+          <div class="contact-info-item">
+            <span class="info-label">Marcas</span>
+            <span class="info-value">
+              <a href="https://cacaovenezueladelta.com" target="_blank" rel="noopener noreferrer">cacaovenezueladelta.com</a> &nbsp;·&nbsp;
+              <a href="https://mundicacao.com" target="_blank" rel="noopener noreferrer">mundicacao.com</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form reveal delay-2" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nombre</label>
+            <input class="form-input" type="text" placeholder="Tu nombre" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Empresa</label>
+            <input class="form-input" type="text" placeholder="Empresa (opcional)" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" placeholder="tu@empresa.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mensaje</label>
+          <textarea class="form-textarea" placeholder="Cuéntanos en qué podemos ayudarte..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit"><span>Enviar mensaje</span></button>
+      </form>
+    </div>
+  </section>
+
+  <footer id="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">Neogreen Global<span>S.L. · Barcelona</span></div>
+        <div style="margin-top:0.5rem; font-family:var(--font-outfit); font-size:0.72rem; color:rgba(242,246,241,0.3); letter-spacing:0.02em;">
+          © 2026 Neogreen Global S.L. · Todos los derechos reservados
+        </div>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#about">Empresa</a></li>
+        <li><a href="#brands">Marcas</a></li>
+        <li><a href="#contact">Contacto</a></li>
+        <li><a href="https://cacaovenezueladelta.com" target="_blank" rel="noopener noreferrer">CVD</a></li>
+        <li><a href="https://mundicacao.com" target="_blank" rel="noopener noreferrer">Mundicacao</a></li>
+        <li><a href="#">Aviso legal</a></li>
+        <li><a href="#">Privacidad</a></li>
+      </ul>
+      <div class="footer-status">
+        <div class="status-dot"></div>
+        <span class="status-text">Sistema operativo</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) navbar.classList.add('scrolled');
+      else navbar.classList.remove('scrolled');
+    }, { passive: true });
+
+    const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    heroTl
+      .to('.hero-bg', { scale: 1, duration: 2.5, ease: 'power2.out' })
+      .to('.hero-eyebrow', { opacity: 1, y: 0, duration: 0.8 }, 0.3)
+      .to('.hero-line1',   { opacity: 1, y: 0, duration: 0.9 }, 0.6)
+      .to('.hero-line2',   { opacity: 1, y: 0, duration: 0.9 }, 0.85)
+      .to('.hero-sub',     { opacity: 1, y: 0, duration: 0.8 }, 1.1)
+      .to('.hero-cta-wrap',{ opacity: 1, y: 0, duration: 0.8 }, 1.35)
+      .to('.hero-scroll-hint', { opacity: 1, duration: 0.8 }, 1.8);
+
+    gsap.to('.hero-bg', {
+      yPercent: 25,
+      ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+    });
+
+    gsap.to('.philosophy-bg', {
+      yPercent: 20,
+      ease: 'none',
+      scrollTrigger: { trigger: '#philosophy', start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit span');
+      btn.textContent = 'Mensaje enviado';
+      setTimeout(() => { btn.textContent = 'Enviar mensaje'; }, 3000);
+    }
+  </script>
+</body>
+</html>
